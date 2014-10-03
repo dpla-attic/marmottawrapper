@@ -17,24 +17,18 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>la.dp</groupId>
     <artifactId>marmotta-webapp</artifactId>
     <packaging>war</packaging>
-
     <name>marmotta-webapp</name>
     <description>The marmotta-webapp WAR bundle</description>
     <version>3.2.1-0.0.1</version>
-
-
     <properties>
         <marmotta.home>${java.io.tmpdir}${file.separator}marmotta-webapp</marmotta.home>
         <marmotta.context>/</marmotta.context>
         <marmotta.port>8080</marmotta.port>
         <marmotta.backend>kiwi</marmotta.backend>
-
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-
         <marmotta.version>3.2.1</marmotta.version>
         <sesame.version>2.7.11</sesame.version>
         <junit.version>4.11</junit.version>
@@ -54,7 +48,6 @@
         <jackson.version>2.2.3</jackson.version>
         <titan.version>0.4.2</titan.version>
     </properties>
-
     <build>
         <finalName>marmotta</finalName>
         <pluginManagement>
@@ -109,8 +102,8 @@
                             <marmotta.home>${marmotta.home}</marmotta.home>
                         </systemProperties>
                         <skipErrorOnShutdown>true</skipErrorOnShutdown>
-                        <!-- <contextReloadable>true</contextReloadable> -->
-                        <!-- <backgroundProcessorDelay>10</backgroundProcessorDelay> -->
+                        <!-- <contextReloadable>true</contextReloadable>-->
+                        <!-- <backgroundProcessorDelay>10</backgroundProcessorDelay>-->
                     </configuration>
                 </plugin>
             </plugins>
@@ -148,7 +141,9 @@
                     <execution>
                         <id>shutdown</id>
                         <phase>post-integration-test</phase>
-                        <goals><goal>shutdown</goal></goals>
+                        <goals>
+                            <goal>shutdown</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -192,7 +187,9 @@
                     <execution>
                         <id>check-files</id>
                         <phase>verify</phase>
-                        <goals><goal>verify</goal></goals>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
                         <configuration>
                             <basedir>${project.build.directory}/it/</basedir>
                             <verificationFile>${basedir}/src/test/resources/verification.xml</verificationFile>
@@ -206,38 +203,38 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
-
         <profile>
-           <id>runnable-war</id>
-           <build>
-               <plugins>
-                   <plugin>
-                       <groupId>org.apache.tomcat.maven</groupId>
-                       <artifactId>tomcat7-maven-plugin</artifactId>
-                       <version>2.1</version>
-                       <executions>
-                           <execution>
-                               <id>tomcat-run</id>
-                               <goals>
-                                   <goal>exec-war-only</goal>
-                               </goals>
-                               <phase>package</phase>
-                               <configuration>
-                                   <path>/</path>                               
-                                   <attachartifactclassifier>exec-war</attachartifactclassifier>
-                                   <attachartifactclassifiertype>jar</attachartifactclassifiertype>
-                               </configuration>
-                           </execution>
-                       </executions>
-                   </plugin>
-        
-               </plugins>
-               </build>
-           </profile>
+            <id>runnable-war</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.1</version>
+                        <executions>
+                            <execution>
+                                <id>tomcat-run</id>
+                                <goals>
+                                    <goal>exec-war-only</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <path>${marmotta.context}</path>
+                                    <port>${marmotta.port}</port>
+                                    <systemProperties>
+                                        <marmotta.home>${marmotta.home}</marmotta.home>
+                                    </systemProperties>
+                                    <attachartifactclassifier>exec-war</attachartifactclassifier>
+                                    <attachartifactclassifiertype>jar</attachartifactclassifiertype>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- backend profiles -->
-
         <profile>
             <id>kiwi</id>
             <activation>
@@ -270,7 +267,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>titan-berkeleydb</id>
             <activation>
@@ -297,7 +293,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>titan-hbase</id>
             <activation>
@@ -321,7 +316,6 @@
                     <groupId>com.thinkaurelius.titan</groupId>
                     <artifactId>titan-hbase</artifactId>
                     <version>${titan.version}</version>
-
                     <exclusions>
                         <exclusion>
                             <groupId>org.mortbay.jetty</groupId>
@@ -351,7 +345,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>bigdata</id>
             <activation>
@@ -373,10 +366,7 @@
                 </dependency>
             </dependencies>
         </profile>
-
-
         <!-- Caching Backends for KiWi -->
-
         <profile>
             <id>infinispan</id>
             <activation>
@@ -393,7 +383,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>hazelcast</id>
             <activation>
@@ -410,7 +399,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>ehcache</id>
             <activation>
@@ -427,7 +415,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>zookeeper</id>
             <dependencies>
@@ -438,7 +425,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>cleanall</id>
             <build>
@@ -470,7 +456,6 @@
             </properties>
         </profile>
     </profiles>
-
     <dependencies>
         <!-- Modules, include the ones needed by the application -->
         <dependency>
@@ -486,6 +471,11 @@
         <dependency>
             <groupId>org.apache.marmotta</groupId>
             <artifactId>marmotta-ldpath</artifactId>
+            <version>${marmotta.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.marmotta</groupId>
+            <artifactId>marmotta-ldp</artifactId>
             <version>${marmotta.version}</version>
         </dependency>
         <dependency>
@@ -508,7 +498,6 @@
             <artifactId>marmotta-security</artifactId>
             <version>${marmotta.version}</version>
         </dependency>
-
         <!-- JavaEE / Servlet / CDI Environment -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -566,12 +555,7 @@
         </dependency>
         <!-- enable for MySQL support; note that the MySQL driver is GPL licensed -->
         <!--
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
-        -->
+        <dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><version>${mysql.version}</version></dependency>-->
         <dependency>
             <groupId>com.thetransactioncompany</groupId>
             <artifactId>cors-filter</artifactId>
@@ -583,7 +567,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
 </project>
