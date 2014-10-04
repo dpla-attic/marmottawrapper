@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Source for RVM
+source ~/.bashrc
+# Install Dependencies
+echo "Updating System"
+sudo apt-get update -qq
+sudo apt-get install -qq git gcc build-essential \
+    curl openjdk-7-jre
+
+# Install RVM
+if [[ ! -e "/usr/local/rvm/scripts/rvm" ]]; then
+  echo "Install RVM, Ruby, Gems"
+  curl -sSL https://get.rvm.io | bash -s stable --ruby > /dev/null 2>&1
+  source /usr/local/rvm/scripts/rvm
+  echo "Installed `ruby --version`"
+fi
+source ~/.bashrc
+rvm fix-permissions
+
+# Run tasks for Oregon Digital
+cd /vagrant
+bundle install
+# rake db:create db:migrate
+
+echo "Server set up"
