@@ -6,7 +6,7 @@ source ~/.bashrc
 echo "Updating System"
 sudo apt-get update -qq
 sudo apt-get install -qq git gcc build-essential \
-    curl openjdk-7-jre
+    curl openjdk-7-jre maven
 
 # Install RVM
 if [[ ! -e "/usr/local/rvm/scripts/rvm" ]]; then
@@ -18,9 +18,9 @@ fi
 source ~/.bashrc
 rvm fix-permissions
 
-# Run tasks for Oregon Digital
 cd /vagrant
 bundle install
-# rake db:create db:migrate
+
+echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/" >> ~/.profile
 
 echo "Server set up"
