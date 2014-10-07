@@ -10,6 +10,7 @@ To install:
     bundle install
 
 * To start a Marmotta app in Tomcat 7 on port `8080`: `rake marmotta:start`
+* To stop Tomcat: `rake marmotta:stop`
 
 Virtual Machine
 ---------------
