@@ -1,2 +1,4 @@
 .extract/*
-target/*
+marmotta/target/*
+Gemfile.lock
+.vagrant
