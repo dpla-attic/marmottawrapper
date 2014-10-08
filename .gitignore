@@ -2,3 +2,5 @@
 marmotta/target/*
 Gemfile.lock
 .vagrant
+*.gem
+tomcat/*

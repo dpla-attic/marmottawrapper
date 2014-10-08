@@ -9,65 +9,83 @@ class Marmottawrapper
       @app_root ||= '.'
     end
     
+    def url
+      @url ||= defined?(ZIP_URL) ? ZIP_URL : "https://github.com/dpla/marmotta-webapp/releases/download/v0.0.4/tomcat-marmotta.zip"
+    end
+
     def marmotta_dir
       File.join(app_root, 'marmotta')
     end
     
-    def build_dir
-      File.join(marmotta_dir, 'target')
+    def tmp_dir
+      File.join(app_root, 'tmp')
+    end
+
+    def tomcat_dir
+      File.join(app_root, 'tomcat')
     end
 
     def clean
-      system "rm -r #{build_dir}" if File.directory?(build_dir)
-      build
+      system "rm -r #{tomcat_dir}" if File.directory?(tomcat_dir)
+      system "rm -r #{tmp_dir}" if File.directory?(tmp_dir)
+      system "rm -r #{marmotta_dir}" if File.directory?(marmotta_dir)
     end
 
     ##
-    # Build a runnable .jar file for marmotta
-    def build
-      Dir.chdir(marmotta_dir) {
-        system "mvn clean package -Prunnable-war"
+    # Fetch the Tomcat/Marmotta distribution
+    def fetch
+      FileUtils.makedirs(tmp_dir) unless File.directory?(tmp_dir)
+      FileUtils.makedirs(marmotta_dir) unless File.directory?(marmotta_dir)
+      Dir.chdir(tmp_dir) {
+        system "curl -L #{url} -o tomcat-marmotta.zip"
       }
     end
+
+    def install
+      system "unzip #{tmp_dir}/tomcat-marmotta.zip"
+      File.delete(File.join(tmp_dir, 'tomcat-marmotta.zip'))
+    end 
 
     ##
     # Start the Tomcat server with Marmotta on port 8080
     def start
-      if pid
-        if is_running?
-          raise("Server is already running with PID #{pid}")
-        else
-          puts "Removing stale PID file at #{pid_path}"
-          File.delete(pid_path)
-        end
-      end
+      # if pid
+      #   if is_running?
+      #     raise("Server is already running with PID #{pid}")
+      #   else
+      #     puts "Removing stale PID file at #{pid_path}"
+      #     File.delete(pid_path)
+      #   end
+      # end
       
-      Dir.chdir(marmotta_dir) {
-        process.start
-      }
+      # Dir.chdir(marmotta_dir) {
+      #   process.start
+      # }
 
-      FileUtils.makedirs(pid_dir) unless File.directory?(pid_dir)
-      File::open(pid_path, 'w') do |f|
-        f.puts "#{process.pid}"
-      end
+      # FileUtils.makedirs(pid_dir) unless File.directory?(pid_dir)
+      # File::open(pid_path, 'w') do |f|
+      #   f.puts "#{process.pid}"
+      # end
 
-      process.pid
+      # process.pid
+      system "#{tomcat_dir}/bin/startup.sh"
     end
     
     ##
     # Stop Tomcat/Marmotta
     def stop
-      raise "No pid found in #{pid_path}" unless pid or @process
-      if @process
-        @process.stop
-      else
-        Process.kill("KILL", pid) rescue nil
-      end
+      # raise "No pid found in #{pid_path}" unless pid or @process
+      # if @process
+      #   @process.stop
+      # else
+      #   Process.kill("KILL", pid) rescue nil
+      # end
       
-      begin
-        File.delete(pid_path)
-      rescue
-      end
+      # begin
+      #   File.delete(pid_path)
+      # rescue
+      # end
+      system "#{tomcat_dir}/bin/shutdown.sh"
     end
 
     def restart
@@ -102,11 +120,11 @@ class Marmottawrapper
     end
 
     def pid_dir
-      File.expand_path(File.join(app_root, 'tmp', 'pids'))
+      File.expand_path(File.join(app_root, 'tmp'))
     end
 
     def pid_file
-      'marmotta.pid'
+      'tomcat.pid'
     end
 
     def pid_file?

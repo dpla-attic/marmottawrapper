@@ -1,15 +1,18 @@
 namespace :marmotta do
 
-  desc "remove the marmotta jar and recreate it"
+  desc "remove the Marmotta data directory and recreate it"
   task :clean do
     Marmottawrapper.clean
   end
 
-  desc "rebuild the marmotta jar"
-  task :build do
+  desc "fetch the Marmotta and Tomcat distribution"
+  task :fetch do
+    Marmottawrapper.fetch
+  end
 
-    dir = Marmottawrapper.build
-    puts "Marmotta jar created at #{dir}"
+  desc "Install the Marmotta and Tomcat distribution"
+  task :install do
+    Marmottawrapper.install
   end
 
   desc "Start Marmotta/Tomcat"
