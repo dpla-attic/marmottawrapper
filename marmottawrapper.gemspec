@@ -9,15 +9,13 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Mark Matienzo", "Tom Johnson"]
   s.email       = ["tech@dp.la"]
-  s.homepage    = "https://github.com/dpla/marmotta-webapp"
-  s.summary     = %q{Convenience tasks for working with marmotta from within a ruby project.}
-  s.description = %q{Convenience tasks for working with marmotta from within a ruby project.}
+  s.homepage    = "https://github.com/dpla/marmottawrapper"
+  s.summary     = %q{Convenience tasks for working with Apache Marmotta from within a Ruby project.}
+  s.description = %q{Convenience tasks for working with Apache Marmotta from within a Ruby project.}
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {spec}/*`.split("\n")
   s.require_paths = ["lib"]
   s.license       = 'APACHE 2'
-
-  s.add_dependency 'childprocess'
   
   s.add_dependency 'rake'
   s.add_development_dependency 'pry'
