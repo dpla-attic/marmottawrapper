@@ -9,8 +9,25 @@ To install:
     cd marmottawrapper
     bundle install
 
+Download and install Marmotta:
+
+    rake marmotta:fetch
+	rake marmotta:install
+
 * To start a Marmotta app in Tomcat 7 on port `8080`: `rake marmotta:start`
 * To stop Tomcat: `rake marmotta:stop`
+
+Use in Rails Projects
+----------------------
+
+A railtie is included to make the tasks available to Rails applications. To use
+the railtie add `marmottawrapper` to your Gemfile and run `bundle install`.
+
+`rake -T` should now reveal that the marmotta tasks are available:
+
+    rake marmotta:fetch
+	rake marmotta:install
+	rake marmotta:start
 
 Virtual Machine
 ---------------
