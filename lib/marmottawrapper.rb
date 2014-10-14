@@ -1,6 +1,9 @@
 require 'fileutils'
 
 class Marmottawrapper
+
+  require 'marmottawrapper/railtie' if defined?(Rails)
+
   class << self
     def app_root
       return @app_root if @app_root
