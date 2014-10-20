@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   s.license       = 'APACHE 2'
   
   s.add_dependency 'rake'
+  s.add_dependency 'archive-tar-minitar'
   s.add_development_dependency 'pry'
 end

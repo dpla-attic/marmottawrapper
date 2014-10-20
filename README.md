@@ -17,6 +17,17 @@ Download and install Marmotta:
 * To start a Marmotta app in Tomcat 7 on port `8080`: `rake marmotta:start`
 * To stop Tomcat: `rake marmotta:stop`
 
+
+Configuration
+-------------
+
+By default, Marmotta will create all its necessary files in a `marmotta`
+subdirectory of your application's root once you start it for the first time,
+including sensible defaults for configuration. Configuration changes can be
+made by altering `marmotta/system-config.properties` (see the
+[Marmotta documentation](http://marmotta.apache.org/configuration.html)
+for more details).
+
 Use in Rails Projects
 ----------------------
 
@@ -43,7 +54,7 @@ Marmotta should now be available on your host machine at port `8087`.
 TODO:
 -----
 * [ ] Make Tomcat port configurable.
-* [ ] Make Marmotta configurable.
 * [ ] Wait for Tomcat to start before quitting `start` task.
+* [ ] Add support for Windows.
 
 License: Apache 2.0

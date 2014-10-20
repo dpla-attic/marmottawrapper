@@ -17,19 +17,19 @@ namespace :marmotta do
 
   desc "Start Marmotta/Tomcat"
   task :start do
-    pid = Marmottawrapper.start
-    puts "Tomcat started with PID #{pid}"
+    Marmottawrapper.start
   end
 
   desc "Stop Marmotta/Tomcat"
   task :stop do
-    pid = Marmottawrapper.stop
-    puts "Tomcat/Marmotta stopped"
+    Marmottawrapper.stop
   end
 
   desc "Restart Marmotta/Tomcat"
   task :restart do
     Marmottawrapper.stop
+    sleep 2
     Marmottawrapper.start
   end
+
 end
