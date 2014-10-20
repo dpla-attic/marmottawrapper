@@ -1,5 +1,5 @@
 .extract/*
-marmotta/target/*
+marmotta/*
 Gemfile.lock
 .vagrant
 *.gem
