@@ -3,6 +3,7 @@ require 'fileutils'
 class Marmottawrapper
 
   require 'marmottawrapper/railtie' if defined?(Rails)
+  Dir[File.expand_path(File.join(File.dirname(__FILE__),"marmottawrapper/tasks/*.rake"))].each { |ext| load ext } if defined?(Rake)
 
   class << self
     def app_root
