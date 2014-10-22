@@ -16,7 +16,7 @@ class Marmottawrapper
     end
     
     def url
-      @url ||= defined?(ZIP_URL) ? ZIP_URL : "https://github.com/dpla/marmottawrapper/releases/download/v0.0.5/tomcat-marmotta.tgz"
+      @url ||= defined?(MARMOTTA_TARBALL_URL) ? MARMOTTA_TARBALL_URL : "https://github.com/dpla/marmottawrapper/releases/download/v0.0.5/tomcat-marmotta.tgz"
     end
 
     def marmotta_dir
@@ -36,7 +36,7 @@ class Marmottawrapper
     end
 
     def clean
-      File.delete(tarball)
+      File.delete(tarball) if File.exists?(tarball)
       FileUtils.rm_rf(tomcat_dir) if File.directory?(tomcat_dir)
       FileUtils.rm_rf(marmotta_dir) if File.directory?(marmotta_dir)
     end
@@ -44,7 +44,7 @@ class Marmottawrapper
     ##
     # Fetch the Tomcat/Marmotta distribution
     def fetch
-      File.delete(tarball)
+      File.delete(tarball) if File.exists?(tarball)
       FileUtils.makedirs(tmp_dir) unless File.directory?(tmp_dir)
       open(tarball, 'wb') do |tm|
         tm.write(open(url).read)
@@ -55,7 +55,7 @@ class Marmottawrapper
       fetch unless File.exists?(tarball)
       FileUtils.makedirs(marmotta_dir) unless File.directory?(marmotta_dir)
       tb = Zlib::GzipReader.new(File.open(tarball, 'rb'))
-      Archive::Tar::Minitar.unpack(tb, app_root.to_path)
+      Archive::Tar::Minitar.unpack(tb, app_root.to_s)
     end 
 
     ##
